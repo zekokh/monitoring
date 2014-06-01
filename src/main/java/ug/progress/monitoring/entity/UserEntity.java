@@ -17,7 +17,7 @@ import java.util.List;
  * Created by ZR on 01.06.2014.
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "user", schema = "public")
 @LoginConstraint
 public class UserEntity implements Serializable, UserDetails {
 
@@ -25,31 +25,39 @@ public class UserEntity implements Serializable, UserDetails {
     /**
      * id пользователя
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
      * Почта пользователя
      */
+    @Column(name = "mail")
     private String mail;
 
     /**
      * Имя пользователя
      */
+    @Column(name = "first_name")
     private String firstName;
 
     /**
      * Фамилия пользователя
      */
+    @Column(name = "last_name")
     private String lastName;
 
     /**
      * Пароль пользователя
      */
+    @Column(name = "password")
     private String password;
 
     /**
      * Дата регистрации пользователя
      */
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_registration")
     private Date dateRegistration;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
@@ -60,8 +68,6 @@ public class UserEntity implements Serializable, UserDetails {
     @NotEmpty(message = "Должна быть задана хотя бы одна роль")
     private List<RoleEntity> userRoles = new ArrayList<RoleEntity>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -70,7 +76,6 @@ public class UserEntity implements Serializable, UserDetails {
         this.id = id;
     }
 
-    @Column(name = "MAIL")
     public String getMail() {
         return mail;
     }
@@ -79,7 +84,6 @@ public class UserEntity implements Serializable, UserDetails {
         this.mail = mail;
     }
 
-    @Column(name = "FIRST_NAME")
     public String getFirstName() {
         return firstName;
     }
@@ -88,7 +92,6 @@ public class UserEntity implements Serializable, UserDetails {
         this.firstName = firstName;
     }
 
-    @Column(name = "LAST_NAME")
     public String getLastName() {
         return lastName;
     }
@@ -97,7 +100,6 @@ public class UserEntity implements Serializable, UserDetails {
         this.lastName = lastName;
     }
 
-    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }
@@ -106,8 +108,6 @@ public class UserEntity implements Serializable, UserDetails {
         this.password = password;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "DATE_REGISTRATION")
     public Date getDateRegistration() {
         return dateRegistration;
     }

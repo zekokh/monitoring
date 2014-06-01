@@ -22,12 +22,6 @@
         <security:intercept-url pattern="/js/**" access="permitAll"/>
         <security:intercept-url pattern="/img/**" access="permitAll"/>
 
-
-        <security:intercept-url pattern="/regions" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/scriptList/**" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/show/**" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-
         <security:intercept-url pattern="/" access="isAuthenticated()"/>
 
         <!--должно идти последним пунктом, чтобы отрабатывали все остальные правила-->
@@ -40,8 +34,6 @@
                          delete-cookies="JSESSIONID"/>
 
         <security:access-denied-handler ref="accessDeniedHandler"/>
-
-        <security:remember-me key="sauronKey" user-service-ref="myAuthenticationProvider" token-validity-seconds="259200"/>
 
     </security:http>
 

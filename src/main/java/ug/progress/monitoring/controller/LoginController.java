@@ -50,7 +50,7 @@ public class LoginController {
      * @return ссылка на страницу, которая реализует представление
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String check(@RequestParam("mail") String mail, @RequestParam("password") String password,
+    public String check(@RequestParam("j_username") String mail, @RequestParam("j_password") String password,
                         @RequestHeader(value = "referer", defaultValue = "/") String headerReferer,
                         @RequestParam(value = "referer", defaultValue = "") String requestReferer,
                         HttpServletResponse response, ModelMap model) {
@@ -73,6 +73,5 @@ public class LoginController {
             model.put("error", "Во время авторизации произошла ошибка");
         }
         return "Login";
-
     }
 }
