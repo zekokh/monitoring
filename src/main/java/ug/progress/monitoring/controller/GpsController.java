@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ug.progress.monitoring.entity.UserEntity;
+import ug.progress.monitoring.store.UserStore;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -15,10 +18,22 @@ import javax.servlet.http.HttpServletResponse;
 public class GpsController {
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
+
+    @Inject
+    protected UserStore store;
+
     @RequestMapping("/geolocation")
     public void acceptLocation(@RequestParam("longitude") String longitude,
                                  @RequestParam("latitude") String latitude,
                                  @RequestParam("id") String id, HttpServletResponse response){
-    UserEntiry user
+        UserEntity user = null;
+        if(id != null) {
+           user =  store.findById(Long.parseLong(id));
+
+
+        }else  {
+            //TODO response generate
+        }
+
     }
 }
