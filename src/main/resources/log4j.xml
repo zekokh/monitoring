@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd.MM.yy HH:mm:ss} %-6p %-50m &lt;%C.%M(%F:%L)&gt;%n"/>
+        </layout>
+    </appender>
+
+    <!--
+    <appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/SauronLogs/SauronEye.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value=".yyyy-MM-dd"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd.MM.yy HH:mm:ss} %-6p %-50m &lt;%C.%M(%F:%L)&gt;%n"/>
+        </layout>
+    </appender> -->
+
+
+
+    <!--<logger name="ru.lanit.sauroneye" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="fileAppender"/>
+    </logger>
+
+    <logger name="ru.lanit.sauroneye.vcs" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="fileAppenderVCS"/>
+    </logger>-->
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="consoleAppender"/>
+    </root>
+
+</log4j:configuration>
