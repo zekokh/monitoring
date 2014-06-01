@@ -50,17 +50,17 @@ public class UserManager implements AuthenticationProvider, UserDetailsService {
         return a;
     }
 
-    private boolean checkPassword(String login, String password) {
-        UserEntity user = store.findByLogin(login);
+    private boolean checkPassword(String mail, String password) {
+        UserEntity user = store.findByMail(mail);
         if(user == null) {
-            logger.warn("User not found: "+login);
+            logger.warn("User not found: " + mail);
             return false;
         }
         if(password==null){
-            logger.warn("Received password is null for user "+login);
+            logger.warn("Received password is null for user "+ mail);
             return false;
         }
-        logger.debug("Attempting to login: "+user.getLogin()+":"+password+".");
+        logger.debug("Attempting to login: "+user.getMail()+":"+password+".");
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             logger.debug("Login successful.");
@@ -78,7 +78,7 @@ public class UserManager implements AuthenticationProvider, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            UserEntity user = store.findByLogin(username);
+            UserEntity user = store.findByMail(username);
             if (user==null)
                 throw new UsernameNotFoundException("User with name "+username+" not found!");
             return user;
