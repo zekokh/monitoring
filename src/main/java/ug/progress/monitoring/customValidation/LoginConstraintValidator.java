@@ -38,12 +38,12 @@ public class LoginConstraintValidator implements ConstraintValidator<LoginConstr
         }
         try {
             final String idValue = BeanUtils.getProperty(user, "id");
-            final String loginValue = BeanUtils.getProperty(user, "login");
+            final String mailValue = BeanUtils.getProperty(user, "login");
 
             if ((idValue == null) || (idValue.isEmpty())) {
-                unique = userService.isLoginUnique(loginValue, 0L);
+                unique = userService.isMailUnique(mailValue, 0L);
             } else {
-                unique = userService.isLoginUnique(loginValue, Long.parseLong(idValue));
+                unique = userService.isMailUnique(mailValue, Long.parseLong(idValue));
             }
         } catch (Exception e) {
             logger.error(e.getMessage());

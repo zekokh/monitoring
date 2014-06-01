@@ -104,11 +104,27 @@ public class UserServiceImpl implements UserService, AuthenticationProvider {
 
     @Override
     public boolean changePassword(UserEntity user, String password) {
+        try {
+            UserEntity oldUser = getUserById(user.getId());
+            if (oldUser != null) {
+                oldUser.setPassword(passwordEncoder.encode(password));
+                UserEntity savedUser = store.save(oldUser);
+                return savedUser != null;
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         return false;
     }
 
     @Override
     public boolean isMailExists(String mail, long ignoreId) {
+        try {
+            UserEntity user = (UserEntity) loadUserByUsername(mail);
+            return (user.getId() != ignoreId);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         return false;
     }
 
@@ -119,9 +135,18 @@ public class UserServiceImpl implements UserService, AuthenticationProvider {
 
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
-    }
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+        try {
+            UserEntity user = store.findByMail(mail);
+            if (user == null)
+                throw new UsernameNotFoundException("User with name " + mail + " not found!");
+            return user;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new UsernameNotFoundException("User with name " + mail + " not found!");
+        }
+
+}
 
     @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {

@@ -3,6 +3,7 @@ package ug.progress.monitoring.entity;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import ug.progress.monitoring.customValidation.LoginConstraint;
 
 import javax.persistence.*;
@@ -18,29 +19,43 @@ import java.util.List;
 @Entity
 @Table(name = "USER")
 @LoginConstraint
-public class UserEntity implements Serializable {
-    /** id пользователя */
+public class UserEntity implements Serializable, UserDetails {
+
+    private static final long serialVersionUID = -1017971023631083571L;
+    /**
+     * id пользователя
+     */
     private Long id;
 
-    /** Почта пользователя */
+    /**
+     * Почта пользователя
+     */
     private String mail;
 
-    /** Имя пользователя */
+    /**
+     * Имя пользователя
+     */
     private String firstName;
 
-    /** Фамилия пользователя */
+    /**
+     * Фамилия пользователя
+     */
     private String lastName;
 
-    /** Пароль пользователя */
+    /**
+     * Пароль пользователя
+     */
     private String password;
 
-    /** Дата регистрации пользователя */
+    /**
+     * Дата регистрации пользователя
+     */
     private Date dateRegistration;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(name="user_roles",
-            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
-            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")}
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     @NotEmpty(message = "Должна быть задана хотя бы одна роль")
     private List<RoleEntity> userRoles = new ArrayList<RoleEntity>();
@@ -50,6 +65,7 @@ public class UserEntity implements Serializable {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,6 +74,7 @@ public class UserEntity implements Serializable {
     public String getMail() {
         return mail;
     }
+
     public void setMail(String mail) {
         this.mail = mail;
     }
@@ -66,6 +83,7 @@ public class UserEntity implements Serializable {
     public String getFirstName() {
         return firstName;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -74,6 +92,7 @@ public class UserEntity implements Serializable {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -82,6 +101,7 @@ public class UserEntity implements Serializable {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -91,6 +111,7 @@ public class UserEntity implements Serializable {
     public Date getDateRegistration() {
         return dateRegistration;
     }
+
     public void setDateRegistration(Date dateRegistration) {
         this.dateRegistration = dateRegistration;
     }
@@ -98,16 +119,13 @@ public class UserEntity implements Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = getGrantedAuthorities(getRolesName(getUserRoles()));
-//        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-//        SecurityGroup group = new SecurityGroup();
-//        list.add(group);
         return list;
     }
 
 
     public List<String> getRolesName(List<RoleEntity> roles) {
-        List<String> rolesName=new ArrayList<String>();
-        for (RoleEntity role:roles) {
+        List<String> rolesName = new ArrayList<String>();
+        for (RoleEntity role : roles) {
             rolesName.add(role.getRoleName());
         }
         return rolesName;
@@ -127,5 +145,30 @@ public class UserEntity implements Serializable {
 
     public void setUserRoles(List<RoleEntity> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    @Override
+    public String getUsername() {
+        return mail;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
