@@ -34,35 +34,45 @@ public class GpsController {
 
     @RequestMapping(value = "/geolocation", method = RequestMethod.POST)
     public void acceptLocation(@RequestParam("longitude") String longitude,
-                                 @RequestParam("latitude") String latitude,
-                                 @RequestParam("appleId") String appleId,
-                                 @RequestParam("id") String id, HttpServletResponse response){
+                               @RequestParam("latitude") String latitude,
+                               @RequestParam("appleId") String appleId,
+                               @RequestParam("id") String id, HttpServletResponse response) {
 
         UserEntity user = null;
-        if(id != null) {
-           user =  userStore.getUserById(Long.parseLong(id));
-            if(user != null) {
-                LocationEntity newLocation = null;
+        if (id != null) {
+            user = userStore.getUserById(Long.parseLong(id));
+            if (user != null) {
+                LocationEntity newLocation = new LocationEntity();
                 newLocation.setLongitude(Double.parseDouble(longitude));
                 newLocation.setLatitude(Double.parseDouble(latitude));
                 newLocation.setAppleId(appleId);
                 locationStore.saveLocation(newLocation);
-                try{
+                try {
                     response.setContentType("text/xml; charset=UTF-8");
                     PrintWriter pw = response.getWriter();
-                    pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>OK</status><description>Data added!</description></result>");
-                }catch (Exception e){
-                    logger.warn("Failed get ");
+                    pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>OK</status><description>Passed!</description></result>");
+                } catch (Exception e) {
+                    logger.warn("Geolocation Service: response failed!");
                 }
 
+            } else {
+                logger.warn("Geolocation Service: User not found!");
+                try {
+                    response.setContentType("text/xml; charset=UTF-8");
+                    PrintWriter pw = response.getWriter();
+                    pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>1</status><description>User not found!</description></result>");
+                } catch (Exception e) {
+                    logger.warn("Geolocation Service: response failed!");
+                }
             }
-        }else  {
-            try{
+        }else {
+            logger.warn("Geolocation Service: userId is empty");
+            try {
                 response.setContentType("text/xml; charset=UTF-8");
                 PrintWriter pw = response.getWriter();
-                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>3</status><description>Error!</description></result>");
-            }catch (Exception e){
-                logger.warn("Failed get 2 ");
+                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>2</status><description>User Id is empty!</description></result>");
+            } catch (Exception e) {
+                logger.warn("Geolocation Service: response failed!");
             }
         }
     }
