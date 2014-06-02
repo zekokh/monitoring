@@ -13,7 +13,7 @@ import java.util.List;
 public interface LocationStore extends JpaRepository<LocationEntity, Long>, QueryDslPredicateExecutor<LocationEntity> {
 
     public List<LocationEntity> findAll();
-    public LocationEntity findById (String id);
+    public List<LocationEntity> findAllByUserId (Long id);
     public LocationEntity findByUserId (String userId);
 
 }

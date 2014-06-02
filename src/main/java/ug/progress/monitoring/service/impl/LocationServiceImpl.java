@@ -28,8 +28,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public LocationEntity getPastLocationsById(String id) {
-        return store.findById(id);
+    public List<LocationEntity> getLocationsByUserId(Long id) {
+        return store.findAllByUserId(id);
     }
 
     @Override

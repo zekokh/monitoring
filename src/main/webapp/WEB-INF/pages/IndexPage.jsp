@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -20,7 +21,7 @@
     <!-- Custom styles for this template -->
     <link href="<c:url value="/css/sticky-footer-navbar.css"/>" rel="stylesheet"/>
 
-    <title>Sticky Footer Navbar Template for Bootstrap</title>
+    <title>Многопользовательская информационная система обмена геолокационными сообщениями</title>
 
 </head>
 <script src="http://api-maps.yandex.ru/1.1/index.xml?key=ANpUFEkBAAAAf7jmJwMAHGZHrcKNDsbEqEVjEUtCmufxQMwAAAAAAAAAAAAvVrubVT4btztbduoIgTLAeFILaQ==" type="text/javascript"></script>
@@ -51,9 +52,9 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Руслан Зекох <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">${user.firstName} ${user.lastName}  <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">zekokh@mail.ru</a></li>
+                        <li><a href="#">${user.mail}</a></li>
                         <li><a href="#">Настройки</a></li>
                         <li><a href="#">Выйти</a></li>
                     </ul>
@@ -67,18 +68,21 @@
 <div class="container">
     <div class="col-md-7">
         <div class="page-header">
-            <div id="YMapsID" style="width:600px;height:400px"></div>
+            <div id="YMapsID" style="width:600px;height:600px"></div>
         </div>
     </div>
     <div class="col-md-5">
         <h4>Список устройств:</h4>
+        <c:if test="${not empty loc}">
         <table class = "table">
-            <th>№</th>
-            <th>Имя устройства</th>
+            <th>Apple id</th>
             <th>Адрес</th>
-            <tr><td>1</td><td>iPhone (Руслан)</td><td>Шоссе нефтяников дом 2</td></tr>
-            <tr><td>2</td><td>iPad (Руслан)</td><td>Шоссе нефтяников дом 2</td></tr>
+
+            <tr><td>${loc.appleId}</td><td>Шоссе нефтяников дом 2</td></tr>
+            <tr><td>iPad (Руслан)</td><td>Шоссе нефтяников дом 2</td></tr>
         </table>
+        </c:if>
+
     </div>
 </div>
 

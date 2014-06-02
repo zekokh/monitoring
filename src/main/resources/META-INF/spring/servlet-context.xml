@@ -37,4 +37,9 @@
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
+    <mvc:interceptors>
+        <bean class="ug.progress.monitoring.interceptor.UserInterceptor"/>
+    </mvc:interceptors>
+
+
 </beans>

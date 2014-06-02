@@ -12,7 +12,7 @@ import java.util.List;
 public interface LocationService {
 
     public List<LocationEntity> getAllLocations();
-    public LocationEntity getPastLocationsById(String id);
+    public List<LocationEntity> getLocationsByUserId(Long id);
     public boolean saveLocation(LocationEntity location);
 
 }
