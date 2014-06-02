@@ -59,7 +59,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String signin(@RequestParam("mail") String mail,
+    public void signin(@RequestParam("mail") String mail,
                          @RequestParam("password") String password,
                          HttpServletResponse response){
 
@@ -105,9 +105,5 @@ public class LoginController {
         } catch (Exception e) {
             logger.warn("Signin Service: response failed!");
         }
-
-
-
-    return "";
     }
 }
