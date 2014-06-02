@@ -15,19 +15,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ug.progress.monitoring.entity.UserEntity;
+import ug.progress.monitoring.service.UserService;
+import ug.progress.monitoring.service.impl.UserServiceImpl;
 import ug.progress.monitoring.store.UserStore;
 
 import javax.inject.Inject;
+import java.io.Serializable;
 
 /**
  * Created by ZR on 01.06.2014.
  */
 @Service
-public class UserManager implements AuthenticationProvider, UserDetailsService {
+public class UserManager implements AuthenticationProvider, UserDetailsService, Serializable {
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     @Inject
     protected UserStore store = null;
+
+
+    @Inject
+    private UserServiceImpl userService;
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -45,9 +52,8 @@ public class UserManager implements AuthenticationProvider, UserDetailsService {
             token.setDetails(user);
             return token;
         } else {
-            a.setAuthenticated(false);
+            return null;
         }
-        return a;
     }
 
     private boolean checkPassword(String mail, String password) {
@@ -72,7 +78,7 @@ public class UserManager implements AuthenticationProvider, UserDetailsService {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return true;
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 
     @Override

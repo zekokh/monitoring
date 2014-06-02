@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-          http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.1.xsd   ">
 
     <security:global-method-security secured-annotations="enabled"/>
 
-    <bean id="passwordEncoder"
-          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
-    <security:http auto-config="true" authentication-manager-ref="myAuthenticationManager"
+    <security:http auto-config="true"
+                   authentication-manager-ref="myAuthenticationManager"
                    use-expressions="true"
-                   entry-point-ref="authenticationEntryPoint">
+                   entry-point-ref="authenticationEntryPoint"
+                   access-denied-page="/accessdenied">
 
-        <security:intercept-url pattern="/login" access="permitAll" />
+        <security:intercept-url pattern="/login" access="permitAll"/>
         <security:intercept-url pattern="/accessdenied" access="permitAll"/>
 
         <security:intercept-url pattern="/css/**" access="permitAll"/>
@@ -27,26 +28,27 @@
         <!--должно идти последним пунктом, чтобы отрабатывали все остальные правила-->
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
 
+        <security:form-login login-page="/login"
+                             authentication-failure-url="/login?error"/>
 
         <security:logout logout-url="/logout"
                          invalidate-session="true"
                          logout-success-url="/login"
                          delete-cookies="JSESSIONID"/>
 
-        <security:access-denied-handler ref="accessDeniedHandler"/>
+        <security:remember-me key="monitoringKey" user-service-ref="myAuthenticationProvider"
+                              token-validity-seconds="259200"/>
 
     </security:http>
 
-    <bean id="accessDeniedHandler" class="ug.progress.monitoring.handler.AccessDeniedHandler">
-        <property name="redirectUrl" value="/accessdenied"/>
-    </bean>
+    <bean id="passwordEncoder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-    <bean id="authenticationEntryPoint"
-          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"
-          p:loginFormUrl="/login" p:useForward="true"/>
-
-
-    <bean id="logoutHandler" class="ug.progress.monitoring.handler.LogoutHandler"/>
+    <beans:bean id="authenticationEntryPoint"
+                class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <constructor-arg name="loginFormUrl" value="/login"/>
+        <beans:property name="useForward" value="true"/>
+    </beans:bean>
 
     <bean id="myAuthenticationProvider" class="ug.progress.monitoring.manager.UserManager"/>
 

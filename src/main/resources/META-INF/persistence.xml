@@ -6,8 +6,7 @@
 
         <class>ug.progress.monitoring.entity.UserEntity</class>
         <class>ug.progress.monitoring.entity.RoleEntity</class>
-
-
+        <class>ug.progress.monitoring.entity.LocationEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
     </persistence-unit>

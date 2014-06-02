@@ -30,6 +30,8 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public final StringPath password = createString("password");
 
+    public final ListPath<RoleEntity, QRoleEntity> userRoles = this.<RoleEntity, QRoleEntity>createList("userRoles", RoleEntity.class, QRoleEntity.class);
+
     public QUserEntity(String variable) {
         super(UserEntity.class, forVariable(variable));
     }
