@@ -26,7 +26,8 @@ public class UserEntity implements Serializable, UserDetails {
      * id пользователя
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_key_gen")
+    @SequenceGenerator(sequenceName = "user_id_seq", allocationSize = 1, name = "user_id_key_gen")
     private Long id;
 
     /**
@@ -56,7 +57,7 @@ public class UserEntity implements Serializable, UserDetails {
     /**
      * Дата регистрации пользователя
      */
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_registration")
     private Date dateRegistration;
 

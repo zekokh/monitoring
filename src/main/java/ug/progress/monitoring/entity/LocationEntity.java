@@ -2,6 +2,7 @@ package ug.progress.monitoring.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -16,7 +17,8 @@ public class LocationEntity implements Serializable {
      * id записи
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_id_key_gen")
+    @SequenceGenerator(sequenceName = "location_id_seq", allocationSize = 1, name = "location_id_key_gen")
     private Long id;
 
     /**
@@ -29,18 +31,18 @@ public class LocationEntity implements Serializable {
      * Долгода
      */
     @Column(name = "longitude")
-    private Double longitude;
+    private String longitude;
 
     /**
      * Широта
      */
     @Column(name = "latitude")
-    private Double latitude;
+    private String latitude;
 
     /**
      * Дата и время получение координат
      */
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date")
     private Date date;
 
@@ -66,19 +68,19 @@ public class LocationEntity implements Serializable {
         this.userId = userId;
     }
 
-    public Double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public Double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 

@@ -34,12 +34,11 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public boolean saveLocation(LocationEntity location) {
-        LocationEntity savedLocation=null;
         if (location == null) {
             return false;
         }else {
             try {
-                savedLocation = store.save(location);
+                store.save(location);
                 return true;
             } catch (Exception e) {
                 logger.error(e.getMessage());

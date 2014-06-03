@@ -17,6 +17,8 @@ import ug.progress.monitoring.store.UserStore;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 /**
  * Created by ZR on 01.06.2014.
@@ -43,11 +45,12 @@ public class GpsController {
             user = userStore.getUserById(Long.parseLong(id));
             if (user != null) {
                 LocationEntity newLocation = new LocationEntity();
-                newLocation.setLongitude(Double.parseDouble(longitude));
-                newLocation.setLatitude(Double.parseDouble(latitude));
+                newLocation.setLongitude(longitude);
+                newLocation.setLatitude(latitude);
                 newLocation.setAppleId(appleId);
                 newLocation.setUserId(id);
-                locationStore.saveLocation(newLocation);
+                newLocation.setDate(new Date());
+                boolean val = locationStore.saveLocation(newLocation);
                 try {
                     response.setContentType("text/xml; charset=UTF-8");
                     PrintWriter pw = response.getWriter();
