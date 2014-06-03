@@ -65,7 +65,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#">${user.mail}</a></li>
                         <li><a href="#">Настройки</a></li>
-                        <li><a href="#">Выйти</a></li>
+                        <li><a href="/logout">Выйти</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.1.xsd   ">
+
+    <security:global-method-security secured-annotations="enabled"/>
+
+    <security:http auto-config="true"
+                   authentication-manager-ref="myAuthenticationManager"
+                   use-expressions="true"
+                   entry-point-ref="authenticationEntryPoint"
+                   access-denied-page="/accessdenied">
+
+        <security:intercept-url pattern="/login" access="permitAll"/>
+        <security:intercept-url pattern="/accessdenied" access="permitAll"/>
+
+        <security:intercept-url pattern="/css/**" access="permitAll"/>
+        <security:intercept-url pattern="/js/**" access="permitAll"/>
+        <security:intercept-url pattern="/img/**" access="permitAll"/>
+
+        <security:intercept-url pattern="/" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/geolocation" access="permitAll()"/>
+        <security:intercept-url pattern="/signin" access="permitAll()"/>
+
+        <!--должно идти последним пунктом, чтобы отрабатывали все остальные правила-->
+        <security:intercept-url pattern="/ug/progress/monitoring/entity" access="isAuthenticated()"/>
+
+        <security:form-login login-page="/login"
+                             authentication-failure-url="/login?error"/>
+
+        <security:logout logout-url="/logout"
+                         invalidate-session="true"
+                         logout-success-url="/login"
+                         delete-cookies="JSESSIONID"/>
+
+        <security:remember-me key="monitoringKey" user-service-ref="myAuthenticationProvider"
+                              token-validity-seconds="259200"/>
+
+    </security:http>
+
+    <bean id="passwordEncoder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <beans:bean id="authenticationEntryPoint"
+                class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <constructor-arg name="loginFormUrl" value="/login"/>
+        <beans:property name="useForward" value="true"/>
+    </beans:bean>
+
+    <bean id="myAuthenticationProvider" class="ug.progress.monitoring.manager.UserManager"/>
+
+    <security:authentication-manager id="myAuthenticationManager">
+        <security:authentication-provider ref="myAuthenticationProvider"/>
+    </security:authentication-manager>
+
+</beans>
