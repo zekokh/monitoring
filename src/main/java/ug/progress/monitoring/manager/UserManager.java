@@ -32,7 +32,6 @@ public class UserManager implements AuthenticationProvider, UserDetailsService, 
     @Inject
     protected UserStore store = null;
 
-
     @Inject
     private UserServiceImpl userService;
 
