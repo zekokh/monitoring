@@ -60,12 +60,12 @@ public class LoginController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public void signin(@RequestParam("mail") String mail,
-                         @RequestParam("password") String password,
-                         HttpServletResponse response){
+                       @RequestParam("password") String password,
+                       HttpServletResponse response) {
 
 
         UserEntity user = store.findByMail(mail);
-        if(user == null) {
+        if (user == null) {
             logger.warn("Signin Service: User not found: " + mail);
             try {
                 response.setContentType("text/xml; charset=UTF-8");
@@ -74,36 +74,34 @@ public class LoginController {
             } catch (Exception e) {
                 logger.warn("Signin Service: response failed!");
             }
-        }
-        if(password==null){
-            logger.warn("Signin Service: Received password is null for user "+ mail);
+        } else if (password == null || password == "") {
+            logger.warn("Signin Service: Received password is null for user " + mail);
             try {
                 response.setContentType("text/xml; charset=UTF-8");
                 PrintWriter pw = response.getWriter();
-                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>error</status><description> Received password is null for user "+ mail +"!</description></result>");
+                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>error</status><description> Received password is null for user " + mail + "!</description></result>");
             } catch (Exception e) {
                 logger.warn("Signin Service: response failed!");
             }
-        }
-        logger.debug("Signin Service:  Attempting to login: "+user.getMail()+":"+password+".");
-
-        if (passwordEncoder.matches(password, user.getPassword())) {
+        } else if (passwordEncoder.matches(password, user.getPassword())) {
+            logger.debug("Signin Service:  Attempting to login: " + user.getMail() + ":" + password + ".");
             logger.debug("Signin Service:  Login successful.");
             try {
                 response.setContentType("text/xml; charset=UTF-8");
                 PrintWriter pw = response.getWriter();
-                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>ok</status><description>"+ user.getId() +"</description></result>");
+                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>ok</status><description>" + user.getId() + "</description></result>");
             } catch (Exception e) {
                 logger.warn("Signin Service: response failed!");
             }
-        }
-        logger.debug("Signin Service:  Login failed.");
-        try {
-            response.setContentType("text/xml; charset=UTF-8");
-            PrintWriter pw = response.getWriter();
-            pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>error</status><description> Login failed </description></result>");
-        } catch (Exception e) {
-            logger.warn("Signin Service: response failed!");
+        } else {
+            logger.debug("Signin Service:  Login failed.");
+            try {
+                response.setContentType("text/xml; charset=UTF-8");
+                PrintWriter pw = response.getWriter();
+                pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>error</status><description> Login failed </description></result>");
+            } catch (Exception e) {
+                logger.warn("Signin Service: response failed!");
+            }
         }
     }
 }

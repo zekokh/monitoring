@@ -24,6 +24,8 @@
         <security:intercept-url pattern="/img/**" access="permitAll"/>
 
         <security:intercept-url pattern="/" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/geolocation" access="permitAll()"/>
+        <security:intercept-url pattern="/signin" access="permitAll()"/>
 
         <!--должно идти последним пунктом, чтобы отрабатывали все остальные правила-->
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>

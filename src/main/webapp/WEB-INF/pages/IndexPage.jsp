@@ -24,16 +24,25 @@
     <title>Многопользовательская информационная система обмена геолокационными сообщениями</title>
 
 </head>
-<script src="http://api-maps.yandex.ru/1.1/index.xml?key=ANpUFEkBAAAAf7jmJwMAHGZHrcKNDsbEqEVjEUtCmufxQMwAAAAAAAAAAAAvVrubVT4btztbduoIgTLAeFILaQ==" type="text/javascript"></script>
+<script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script type="text/javascript">
-    // Создает обработчик события window.onLoad
-    YMaps.jQuery(function () {
-        // Создает экземпляр карты и привязывает его к созданному контейнеру
-        var map = new YMaps.Map(YMaps.jQuery("#YMapsID")[0]);
+    ymaps.ready(init);
+    var myMap,
+            myPlacemark;
 
-        // Устанавливает начальные параметры отображения карты: центр карты и коэффициент масштабирования
-        map.setCenter(new YMaps.GeoPoint(37.64, 55.76), 10);
-    })
+    function init(){
+        myMap = new ymaps.Map("map", {
+            center: [${loc.latitude}, ${loc.longitude}],
+            zoom: 7
+        });
+
+        myPlacemark = new ymaps.Placemark([${loc.latitude}, ${loc.longitude}], {
+            hintContent: '${loc.appleId}!',
+            balloonContent: '${loc.appleId}'
+        });
+
+        myMap.geoObjects.add(myPlacemark);
+    }
 </script>
 <body>
 
@@ -68,7 +77,7 @@
 <div class="container">
     <div class="col-md-7">
         <div class="page-header">
-            <div id="YMapsID" style="width:600px;height:600px"></div>
+            <div id="map" style="width:600px;height:600px"></div>
         </div>
     </div>
     <div class="col-md-5">
@@ -77,9 +86,7 @@
         <table class = "table">
             <th>Apple id</th>
             <th>Адрес</th>
-
             <tr><td>${loc.appleId}</td><td>Шоссе нефтяников дом 2</td></tr>
-            <tr><td>iPad (Руслан)</td><td>Шоссе нефтяников дом 2</td></tr>
         </table>
         </c:if>
 

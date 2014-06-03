@@ -46,6 +46,7 @@ public class GpsController {
                 newLocation.setLongitude(Double.parseDouble(longitude));
                 newLocation.setLatitude(Double.parseDouble(latitude));
                 newLocation.setAppleId(appleId);
+                newLocation.setUserId(id);
                 locationStore.saveLocation(newLocation);
                 try {
                     response.setContentType("text/xml; charset=UTF-8");
