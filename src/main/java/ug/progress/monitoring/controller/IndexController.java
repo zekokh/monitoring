@@ -28,8 +28,8 @@ public class IndexController {
     public String index(ModelMap model, HttpSession session) {
         try{
             UserEntity users = (UserEntity) session.getAttribute("user");
-            Long userId = users.getId();
-            List<LocationEntity> locations = locationService.getAllLocations();
+            String userId = Long.toString(users.getId());
+            List<LocationEntity> locations = locationService.getLocationsByUserId(userId);
             if (locations == null)
                 model.addAttribute("error", "Нет данных о пользователях");
             else model.addAttribute("loc", locations.get(0));

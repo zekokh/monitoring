@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -45,7 +44,6 @@
     }
 </script>
 <body>
-
 <!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -74,21 +72,39 @@
 </div>
 
 <!-- Begin page content -->
+<c:set var="userFlag" value="false"/>
+<c:if test = "${not empty loc}">
+    <c:set var="userFlag" value="true"/>
+</c:if>
 <div class="container">
     <div class="col-md-7">
         <div class="page-header">
+
+            <c:choose>
+                <c:when test="${userFlag==true}">
+                </c:when>
+                <c:when test="${userFlag==false}">
+                    <div class="alert alert-warning">Нет данных для отображения</div>
+                </c:when>
+            </c:choose>
+
             <div id="map" style="width:600px;height:600px"></div>
         </div>
     </div>
     <div class="col-md-5">
-        <h4>Список устройств:</h4>
-        <c:if test="${not empty loc}">
-        <table class = "table">
-            <th>Apple id</th>
-            <th>Адрес</th>
-            <tr><td>${loc.appleId}</td><td>Шоссе нефтяников дом 2</td></tr>
-        </table>
-        </c:if>
+        <c:choose>
+            <c:when test="${userFlag==true}">
+                <h4>Список устройств:</h4>
+                <table class = "table">
+                    <th>Apple id</th>
+                    <th>Адрес</th>
+                    <tr><td>${loc.appleId}</td><td>Шоссе нефтяников дом 2</td></tr>
+                </table>
+            </c:when>
+            <c:when test="${userFlag==false}">
+                <br /><br /><br /><br /><br /><br /> <h4>Для передачи данных о местоположении объекта активируйте передатчик!</h4>
+            </c:when>
+        </c:choose>
 
     </div>
 </div>

@@ -3,7 +3,6 @@ package ug.progress.monitoring.store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import ug.progress.monitoring.entity.LocationEntity;
-import ug.progress.monitoring.entity.UserEntity;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public interface LocationStore extends JpaRepository<LocationEntity, Long>, QueryDslPredicateExecutor<LocationEntity> {
 
     public List<LocationEntity> findAll();
-    public List<LocationEntity> findAllByUserId (Long id);
+    public List<LocationEntity> findAllByUserId (String id);
     public LocationEntity findByUserId (String userId);
 
 }

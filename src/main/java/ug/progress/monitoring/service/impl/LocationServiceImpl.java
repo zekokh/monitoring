@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ug.progress.monitoring.entity.LocationEntity;
-import ug.progress.monitoring.entity.UserEntity;
 import ug.progress.monitoring.service.LocationService;
 import ug.progress.monitoring.store.LocationStore;
 
@@ -28,7 +27,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<LocationEntity> getLocationsByUserId(Long id) {
+    public List<LocationEntity> getLocationsByUserId(String id) {
         return store.findAllByUserId(id);
     }
 
