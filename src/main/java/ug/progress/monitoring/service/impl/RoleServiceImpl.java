@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Created by ZR on 01.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Service
 public class RoleServiceImpl implements RoleService {

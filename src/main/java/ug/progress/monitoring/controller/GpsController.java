@@ -21,7 +21,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
- * Created by ZR on 01.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Controller
 public class GpsController {
@@ -44,19 +44,35 @@ public class GpsController {
         if (id != null) {
             user = userStore.getUserById(Long.parseLong(id));
             if (user != null) {
-                LocationEntity newLocation = new LocationEntity();
-                newLocation.setLongitude(longitude);
-                newLocation.setLatitude(latitude);
-                newLocation.setAppleId(appleId);
-                newLocation.setUserId(id);
-                newLocation.setDate(new Date());
-                boolean val = locationStore.saveLocation(newLocation);
-                try {
-                    response.setContentType("text/xml; charset=UTF-8");
-                    PrintWriter pw = response.getWriter();
-                    pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>OK</status><description>Passed!</description></result>");
-                } catch (Exception e) {
-                    logger.warn("Geolocation Service: response failed!");
+                LocationEntity oldLocation = locationStore.getOneLocationsByUserId(id);
+                if (oldLocation != null) {
+                    oldLocation.setLongitude(longitude);
+                    oldLocation.setLatitude(latitude);
+                    oldLocation.setAppleId(appleId);
+                    oldLocation.setDate(new Date());
+                    locationStore.updateLocation(oldLocation);
+                    try {
+                        response.setContentType("text/xml; charset=UTF-8");
+                        PrintWriter pw = response.getWriter();
+                        pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>OK</status><description>Passed!</description></result>");
+                    } catch (Exception e) {
+                        logger.warn("Geolocation Service: response failed!");
+                    }
+                } else {
+                    LocationEntity newLocation = new LocationEntity();
+                    newLocation.setLongitude(longitude);
+                    newLocation.setLatitude(latitude);
+                    newLocation.setAppleId(appleId);
+                    newLocation.setUserId(id);
+                    newLocation.setDate(new Date());
+                    boolean val = locationStore.saveLocation(newLocation);
+                    try {
+                        response.setContentType("text/xml; charset=UTF-8");
+                        PrintWriter pw = response.getWriter();
+                        pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><result><status>OK</status><description>Passed!</description></result>");
+                    } catch (Exception e) {
+                        logger.warn("Geolocation Service: response failed!");
+                    }
                 }
 
             } else {
@@ -69,7 +85,7 @@ public class GpsController {
                     logger.warn("Geolocation Service: response failed!");
                 }
             }
-        }else {
+        } else {
             logger.warn("Geolocation Service: userId is empty");
             try {
                 response.setContentType("text/xml; charset=UTF-8");

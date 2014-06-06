@@ -97,8 +97,8 @@
                 <h4>Список устройств:</h4>
                 <table class = "table">
                     <th>Apple id</th>
-                    <th>Адрес</th>
-                    <tr><td>${loc.appleId}</td><td>Шоссе нефтяников дом 2</td></tr>
+                    <th>Дата/время</th>
+                    <tr><td>${loc.appleId}</td><td>${loc.date}</td></tr>
                 </table>
             </c:when>
             <c:when test="${userFlag==false}">

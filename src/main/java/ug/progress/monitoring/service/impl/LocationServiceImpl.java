@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Created by ZR on 02.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -32,6 +32,11 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    public LocationEntity getOneLocationsByUserId(String id) {
+            return store.findByUserId(id);
+    }
+
+    @Override
     public boolean saveLocation(LocationEntity location) {
         if (location == null) {
             return false;
@@ -44,5 +49,21 @@ public class LocationServiceImpl implements LocationService {
                 return false;
             }
         }
+    }
+
+    @Override
+    public boolean updateLocation(LocationEntity location) {
+        try{
+            LocationEntity oldLocation = store.findByUserId(location.getUserId());
+            oldLocation.setLatitude(location.getLatitude());
+            oldLocation.setLongitude(location.getLongitude());
+            oldLocation.setAppleId(location.getAppleId());
+            oldLocation.setDate(location.getDate());
+            LocationEntity savedLocation = store.save(oldLocation);
+            return savedLocation != null;
+        } catch (Exception e) {
+        logger.error(e.getMessage());
+    }
+        return false;
     }
 }

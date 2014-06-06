@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * Created by ZR on 01.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Controller
 public class IndexController {

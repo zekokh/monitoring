@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * Created by ZR on 02.06.2014.
+ * Created by Ruslan Zekokh.
  */
 
 /**

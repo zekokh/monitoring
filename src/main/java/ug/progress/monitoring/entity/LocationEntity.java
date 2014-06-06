@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
- * Created by ZR on 01.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Entity
 @Table(name = "location")

@@ -13,6 +13,8 @@ public interface LocationService {
 
     public List<LocationEntity> getAllLocations();
     public List<LocationEntity> getLocationsByUserId(String id);
+    public LocationEntity getOneLocationsByUserId(String id);
     public boolean saveLocation(LocationEntity location);
+    public boolean updateLocation(LocationEntity location);
 
 }

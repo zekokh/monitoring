@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
- * Created by ZR on 01.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Service
 public class UserManager implements AuthenticationProvider, UserDetailsService, Serializable {

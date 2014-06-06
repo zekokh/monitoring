@@ -4,7 +4,7 @@ import javax.validation.Constraint;
 import java.lang.annotation.*;
 
 /**
- * Created by ZR on 01.06.2014.
+ * Created by Ruslan Zekokh.
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

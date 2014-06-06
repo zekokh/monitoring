@@ -3,7 +3,7 @@ package ug.progress.monitoring.entity;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Created by ZR on 02.06.2014.
+ * Created by Ruslan Zekokh.
  */
 public class SecurityGroup implements GrantedAuthority {
 
