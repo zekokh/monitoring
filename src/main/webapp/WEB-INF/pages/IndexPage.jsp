@@ -97,7 +97,7 @@
                 <h4>Список устройств:</h4>
                 <table class = "table">
                     <th>Apple id</th>
-                    <th>Дата/время</th>
+                    <th>Дата / Время</th>
                     <tr><td>${loc.appleId}</td><td>${loc.date}</td></tr>
                 </table>
             </c:when>

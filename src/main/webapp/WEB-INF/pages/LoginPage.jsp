@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -22,14 +23,19 @@
 
     <form class="form-signin" action="j_spring_security_check" method="POST">
         <h2 class="form-signin-heading">Войти в систему</h2>
+
         <input type="hidden" name="referer" value="${requestScope.referer}"/>
-        <input type="email" class="form-control" placeholder="Email address" name="j_username" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" name="j_password" required>
         <c:if test="${requestScope.error!=null}">
             <div class="alert">
                     ${requestScope.error}
             </div>
         </c:if>
+        <c:if test="${fn:length(param)>0}">
+            <div class="alert alert-danger">Не верный логин или пароль!</div>
+        </c:if>
+        <input type="email" class="form-control" placeholder="Email address" name="j_username" required autofocus>
+        <input type="password" class="form-control" placeholder="Password" name="j_password" required>
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
     </form>
 
